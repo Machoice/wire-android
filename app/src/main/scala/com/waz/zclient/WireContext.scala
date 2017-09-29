@@ -58,14 +58,10 @@ trait ViewEventContext extends View with EventContext {
 
   override def onAttachedToWindow(): Unit = {
     super.onAttachedToWindow()
-    import ZLog.ImplicitTag._
-    verbose("View onContextStart")
     onContextStart()
   }
 
   override def onDetachedFromWindow(): Unit = {
-    import ZLog.ImplicitTag._
-    verbose("View onContextStop")
     onContextStop()
     super.onDetachedFromWindow()
   }

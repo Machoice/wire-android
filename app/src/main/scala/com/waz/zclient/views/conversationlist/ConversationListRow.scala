@@ -118,7 +118,7 @@ class NormalConversationListRow(context: Context, attrs: AttributeSet, style: In
     z <- zms
     conv <- conversation
     lastMessage <- controller.lastMessage(conv.id)
-    lastUnreadMessage = lastMessage.filter(_ => conv.unreadCount.total > 0)
+    lastUnreadMessage = lastMessage.filter(_.userId != z.selfUserId).filter(_ => conv.unreadCount.total > 0)
     lastUnreadMessageUser <- lastUnreadMessage.fold2(Signal.const(Option.empty[UserData]), message => UserSignal(message.userId).map(Some(_)))
     lastUnreadMessageMembers <- lastUnreadMessage.fold2(Signal.const(Vector[UserData]()), message => UserSetSignal(message.members).map(_.toVector))
     typingUser <- userTyping
