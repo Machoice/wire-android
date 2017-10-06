@@ -199,10 +199,9 @@ class CurrentCallController(implicit inj: Injector, cxt: WireContext) extends In
       case (s, cId) => s.setVideoSendActive(cId, if(state == SEND) false else true)
     }
   }
-
-  val vbrEnabled: Signal[String] = callingService.flatMap(_.otherSideCBR).map {
+  val vbrEnabled: Signal[String] = callingService.flatMap(_.currentCall.map(_.fold(false)(_.isCbrEnabled))).map {
     case false => ""
-    case true => "" // TODO re-enable CBR when avs is fixed cxt.getString(R.string.audio_message__constant_bit_rate)
+    case true => cxt.getString(R.string.audio_message__constant_bit_rate)
   }
 
   val speakerButton = ButtonSignal(zms.map(_.mediamanager), zms.flatMap(_.mediamanager.isSpeakerOn)) {

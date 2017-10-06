@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:title="@string/pref_options_vbr_title"
-                app:subtitle="@string/pref_options_vbr_summary_temp_disabled"
+                app:subtitle="@string/pref_options_vbr_summary"
                 />
 
             <com.waz.zclient.ui.text.TypefaceTextView

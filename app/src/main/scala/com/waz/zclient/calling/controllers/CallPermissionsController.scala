@@ -53,18 +53,13 @@ class CallPermissionsController(implicit inj: Injector, cxt: WireContext) extend
     * already an ongoing call, the withVideo and variableBitRate flags will be ignored by the
     * underlying service
     */
-  def startCall(convId: ConvId, withVideo: Boolean = false, variableBitRate: Boolean = false): Unit = {
+  def startCall(convId: ConvId, withVideo: Boolean = false): Unit = {
     convIdOpt.head.map(_.isDefined).map { incoming =>
       permissionsController.requiring(if (withVideo) Set(CameraPermission, RecordAudioPermission) else Set(RecordAudioPermission)) {
-        if (!incoming) setVariableBitRateMode(variableBitRate)
         callingService.head.map(_.startCall(convId, withVideo))
       }(R.string.calling__cannot_start__title, if (withVideo) R.string.calling__cannot_start__no_video_permission__message else R.string.calling__cannot_start__no_permission__message,
         if (incoming) callingService.head.map(_.endCall(convId)))
     }
   }
 
-  def setVariableBitRateMode(enabled: Boolean): Unit = {
-    val cbrOn = if(enabled) 0 else 1 // in SE it's reversed: we DISABLE cbr instead of enabling vbr and vice versa
-    callingService.head.map(_.setAudioConstantBitRateEnabled(cbrOn))
-  }
 }

@@ -466,12 +466,12 @@ class MainActivity extends BaseActivity
         getString(R.string.group_calling_cancel),
         new DialogInterface.OnClickListener() {
           def onClick(dialog: DialogInterface, which: Int) = {
-            callPermissionController.startCall(new ConvId(c.getId), withVideo, getControllerFactory.getUserPreferencesController.isVariableBitRateEnabled)
+            callPermissionController.startCall(new ConvId(c.getId), withVideo)
           }
       }, null)
 
     case c =>
-      callPermissionController.startCall(new ConvId(c.getId), withVideo, getControllerFactory.getUserPreferencesController.isVariableBitRateEnabled)
+      callPermissionController.startCall(new ConvId(c.getId), withVideo)
   }
 
   private def cannotStartGSM() =
